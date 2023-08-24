@@ -1,5 +1,18 @@
 #include <stdio.h>
 
+void print_yale(int nnz,int row, int *A, int *IA, int *JA)
+{
+	printf("Array A: \n");
+	for(int i=0; i<nnz; i++)
+		printf("%d ", A[i]);
+	printf("\nArray IA: \n");
+	for(int i=0; i<=row; i++)
+		printf("%d ", IA[i]);
+	printf("\nArray JA: \n");
+	for(int i=0; i<nnz; i++)
+		printf("%d ", JA[i]);
+}
+
 void print_matrix(int row, int col, int mat[][col])
 {
 	for(int i=0; i<row; i++)
@@ -30,6 +43,24 @@ int count_non_zero_element(int row, int col, int mat[][col])
 	return count;
 }
 
+void yale_spersify(int row, int col, int mat[][col], int nnz, int *A, int *IA, int *JA)
+{
+	IA[0] = 0;
+	int k=0;
+	for(int i=0; i<row; i++)
+	{
+		int count = 0;
+		for(int j=0; j<col; j++)
+			if(mat[i][j])
+			{
+				count++;
+				A[k] = mat[i][j];
+				JA[k++] = j;
+			}
+		IA[i+1] = IA[i] + count;
+	}
+}
+
 void spersiFY(int row, int col, int mat[][col], int size, int sparse[][3])
 {
 	int k=1;
@@ -54,7 +85,7 @@ void diagonal_using_sparse(int sparse[][3], int diag[][3])
 	for(i=0; i<3; i++)
 		diag[0][i] = sparse[0][i];
 		
-	for(k=1,i=1; k<=size i++)
+	for(k=1,i=1; k<=size; i++)
 	{	
 			if(i == sparse[0][2])
 			{
@@ -91,17 +122,18 @@ int main()
 	printf("The matrix is: \n");
 	print_matrix(row,col,mat);
 	
-	int size = count_non_zero_element(row,col,mat), sparse[size+1][3], diag[size+1][3];
+	int size = count_non_zero_element(row,col,mat), A[size], IA[row+1], JA[size]; //sparse[size+1][3], diag[size+1][3];
 	printf("%d", size);
-	spersiFY(row,col,mat,size,sparse);
-	printf("%d %d %d", sparse[sparse[0][2]][0], sparse[sparse[0][2]][1], sparse[sparse[0][2]][2]);
-	printf("The sparse represntation is: \n");
-	print_sparse(sparse);
+	yale_spersify(row, col, mat, size, A, IA, JA);
+	//spersiFY(row,col,mat,size,sparse);
+	//printf("%d %d %d", sparse[sparse[0][2]][0], sparse[sparse[0][2]][1], sparse[sparse[0][2]][2]);
+	printf("The yale sparse represntation is: \n");
+	print_yale(size,row,A,IA,JA);
 	printf("ok");
 	
-	diagonal_using_sparse(sparse,diag);
-	printf("The diagonal sparse represtation is: \n");
-	print_matrix(size+1,3,diag);
+	//diagonal_using_sparse(sparse,diag);
+	//printf("The diagonal sparse represtation is: \n");
+	//print_matrix(size+1,3,diag);
 	
 	return 0;
 }

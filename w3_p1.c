@@ -136,12 +136,12 @@ void delete_from_end(node** head)
 	prePtr->next = NULL;
 }
 
-void delete_list(node** head)
+void delete_list(node* head)
 {
 	if(!head)
 		return;
-	delete_list(&((*head)->next));
-	free(*head);
+	delete_list(head->next);
+	free(head);
 }
 
 
@@ -202,7 +202,7 @@ int main()
 				break;
 			case 9:
 				printf("\nEXITING...\n\n");
-				delete_list(&head);
+				delete_list(head);
 				exit(0);
 			default:
 				printf("ERROR: You entered wrong choice\n");
