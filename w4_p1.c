@@ -80,7 +80,7 @@ void insertAtAnyPos(node** head, int val, int pos)
 		temp = temp->next;
 	}
 	if(i != pos-1)
-	{	
+	{
 		printf("ERROR: Out of Bound\n");
 		return;
 	}
@@ -116,11 +116,11 @@ void deleteFromStart(node** head)
 		*head = NULL;
 		return;
 	}
-	
+
 	node* temp = *head;
 	while(temp->next != *head)
 		temp = temp->next;
-	
+
 	*head = (*head)->next;
 	free(temp->next);
 	temp->next = *head;
@@ -162,7 +162,7 @@ void deleteFromEnd(node** head)
 		printf("ERROR: The linked list is already emnpty\n");
 		return;
 	}
-	
+
 	if((*head)->next == *head)
 	{
 		free(*head);
@@ -181,11 +181,12 @@ void freeList(node** head)
 	while(*head)
 		deleteFromEnd(head);
 }
-	
+
 int main()
 {
 	int data, pos, ch;
 	char created = 0;
+    node* head = NULL;
 	while(1)
 	{
 		printf("MENU:\n\n");
@@ -198,12 +199,16 @@ int main()
 		printf("7. Delete from end: \n");
 		printf("8. Print the circular linked list: \n");
 		printf("9. Exit: \n\nEnter your choise: ");
-		
+
 		scanf("%d", &ch);
 		switch(ch)
 		{
 			case 1:
-				node* head;
+			    if(head)
+                {
+                    freeList(&head);
+                    head = NULL;
+                }
 				created = 1;
 				printf("Creating a circular linked list: \n");
 				printf("Enter data: ");
@@ -220,7 +225,7 @@ int main()
 					scanf("%d", &ch);
 				}
 				break;
-				
+
 			case 2:
 				if(!created)
 				{
@@ -231,7 +236,7 @@ int main()
 				scanf("%d", &data);
 				insertAtStart(&head,data);
 				break;
-				
+
 			case 3:
 				if(!created)
 				{
@@ -244,7 +249,7 @@ int main()
 				scanf("%d", &data);
 				insertAtAnyPos(&head,data,pos);
 				break;
-				
+
 			case 4:
 				if(!created)
 				{
@@ -255,8 +260,8 @@ int main()
 				scanf("%d", &data);
 				insertAtEnd(&head,data);
 				break;
-				
-			case 5: 
+
+			case 5:
 				if(!created)
 				{
 					printf("ERROR: List Not created");
@@ -264,7 +269,7 @@ int main()
 				}
 				deleteFromStart(&head);
 				break;
-				
+
 			case 6:
 				if(!created)
 				{
@@ -275,7 +280,7 @@ int main()
 				scanf("%d", &pos);
 				deleteFromAnyPos(&head,pos);
 				break;
-				
+
 			case 7:
 				if(!created)
 				{
@@ -284,7 +289,7 @@ int main()
 				}
 				deleteFromEnd(&head);
 				break;
-				
+
 			case 8:
 				if(!created)
 				{
@@ -294,16 +299,17 @@ int main()
 				printf("\nThe linked list upto now:");
 				printLinkedList(&head);
 				break;
-				
+
 			case 9:
 				printf("\nExiting !...\n");
 				if(created)
-					freeList(&head);			
+					freeList(&head);
 				exit(1);
 			default:
-				printf("ERROR: Invalid choise\n ");		
+				printf("ERROR: Invalid choise\n ");
 		}
 		printf("\n");
 	}
 	return 0;
 }
+
