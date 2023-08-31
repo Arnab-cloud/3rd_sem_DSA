@@ -185,6 +185,7 @@ void freeList(node** head)
 int main()
 {
 	int data, pos, ch;
+	char created = 0;
 	while(1)
 	{
 		printf("MENU:\n\n");
@@ -203,6 +204,7 @@ int main()
 		{
 			case 1:
 				node* head;
+				created = 1;
 				printf("Creating a circular linked list: \n");
 				printf("Enter data: ");
 				scanf("%d", &data);
@@ -220,12 +222,22 @@ int main()
 				break;
 				
 			case 2:
+				if(!created)
+				{
+					printf("ERROR: List Not created");
+					break;
+				}
 				printf("\nEnter element to be inserted: ");
 				scanf("%d", &data);
 				insertAtStart(&head,data);
 				break;
 				
 			case 3:
+				if(!created)
+				{
+					printf("ERROR: List Not created");
+					break;
+				}
 				printf("\nEnter the position: ");
 				scanf("%d", &pos);
 				printf("\nEnter the element to be inserted: ");
@@ -234,33 +246,59 @@ int main()
 				break;
 				
 			case 4:
+				if(!created)
+				{
+					printf("ERROR: List Not created");
+					break;
+				}
 				printf("\nEnter element to be inserted: ");
 				scanf("%d", &data);
 				insertAtEnd(&head,data);
 				break;
 				
 			case 5: 
+				if(!created)
+				{
+					printf("ERROR: List Not created");
+					break;
+				}
 				deleteFromStart(&head);
 				break;
 				
 			case 6:
+				if(!created)
+				{
+					printf("ERROR: List Not created");
+					break;
+				}
 				printf("\nEnter the positon: ");
 				scanf("%d", &pos);
 				deleteFromAnyPos(&head,pos);
 				break;
 				
 			case 7:
+				if(!created)
+				{
+					printf("ERROR: List Not created");
+					break;
+				}
 				deleteFromEnd(&head);
 				break;
 				
 			case 8:
+				if(!created)
+				{
+					printf("ERROR: List Not created");
+					break;
+				}
 				printf("\nThe linked list upto now:");
 				printLinkedList(&head);
 				break;
 				
 			case 9:
 				printf("\nExiting !...\n");
-				freeList(&head);
+				if(created)
+					freeList(&head);			
 				exit(1);
 			default:
 				printf("ERROR: Invalid choise\n ");		
