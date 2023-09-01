@@ -35,6 +35,7 @@ node* createNode(int val)
 	node* head = (node*)malloc(sizeof(node));
 	head->val = val;
 	head->next = NULL;
+	return head;
 }
 
 node* createCircularList(int val)
